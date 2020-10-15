@@ -7,13 +7,15 @@ async function videoController(req, res) {
 
     res.json(video);
 
-    const videoViewedRecord = {
-        videoId,
-        clientIp: req.ip,
-        timestamp: Date.now(),
-    };
-
-    await VideoViewedRecord.create(videoViewedRecord);
+    if (video) {
+        const videoViewedRecord = {
+            videoId,
+            clientIp: req.ip,
+            timestamp: Date.now(),
+        };
+    
+        await VideoViewedRecord.create(videoViewedRecord);
+    }
 };
 
 module.exports = {

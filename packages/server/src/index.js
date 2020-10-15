@@ -14,14 +14,29 @@ app.use(function setHeaders(req, res, next) {
 app.get('/video/:videoId', videoController);
 
 function startServer() {
-    mongoose.connect('mongodb://localhost/db');
+    mongoose.connect('mongodb://mongo/db');
+    
     const db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'connection error:'));
-    db.once('open', function () {
-        console.log('connected');
-        // we're connected!
+    db.on('connected', function() {
+        console.log('MongoDB connected!');
     });
-
+    db.on('connecting', function() {
+        console.log('connecting to MongoDB...');
+    });
+    db.on('error', function(error) {
+        console.error('Error in MongoDb connection: ' + error);
+        mongoose.disconnect();
+    });
+    db.on('disconnected', function() {
+        console.log('MongoDB disconnected!');
+        mongoose.connect('mongodb://mongo/db', { server: { auto_reconnect: true }});
+    });
+    db.once('open', function() {
+        console.log('MongoDB connection opened!');
+    });
+    db.on('reconnected', function () {
+        console.log('MongoDB reconnected!');
+    });
     app.listen(port, () => {
         console.log(`Example app listening at http://localhost:${port}`)
     });
