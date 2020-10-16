@@ -29,8 +29,12 @@ services:
       - mongo_data_config_db:/data/configdb
 
   client:
+    tty: true
     environment:
       PORT: 3000
+      NODE_ENV: 'develop'
+      CHOKIDAR_USEPOLLING: 'true'
+      DEBUG: '*'
     build:
       context: ./packages/client
       dockerfile: ./docker/env/artifacts/client/Dockerfile

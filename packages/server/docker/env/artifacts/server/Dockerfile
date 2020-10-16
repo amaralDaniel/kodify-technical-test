@@ -3,13 +3,13 @@
 FROM node:10.14.0-alpine@sha256:b3e157beaf4f780f6e6ed058a438989afb0e5174b812c089e731b9f75b4db416
 
 RUN apk add --no-cache --quiet \
-# npm
-git=~2.18 \
-# node-gyp
-# https://github.com/nodejs/node-gyp/tree/v5.0.4#on-unix
-g++=~6.4 \
-make=~4.2 \
-python=~2.7
+    # npm
+    git=~2.18 \
+    # node-gyp
+    # https://github.com/nodejs/node-gyp/tree/v5.0.4#on-unix
+    g++=~6.4 \
+    make=~4.2 \
+    python=~2.7
 
 WORKDIR /srv/kodify-technical-test-server
 
@@ -30,4 +30,4 @@ ENV NODE_ENV='development'
 # No need to bake credentials into the image
 RUN yarn install --loglevel warn
 
-CMD ["node", "src/index.js"]
+CMD ["npm", "start"]

@@ -5,12 +5,25 @@ function App() {
   const [source, setSource] = useState(null);
 
   const fetchVideoData = async () => {
-    const response = await fetch('http://localhost:30001/video/12345');
-    const data = await response.json();
+    const rawVideoResponse = await fetch('http://172.29.1.201:3002/video/12345');
+    const video = await rawVideoResponse.json();
+
+    const rawTokenResponse = await fetch('http://172.29.1.201:3002/video/token', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        sources: video.sources.map(s => s.src),
+      }),
+    });
+
+    const { sources } = await rawTokenResponse.json();
 
     const source = {
       type: 'video',
-      sources: data.sources,
+      sources: video.sources.map((s, i) => ({ ...s, src: sources[i] })),
     };
 
     setSource(source);
@@ -18,7 +31,7 @@ function App() {
 
   useEffect(() => {
     fetchVideoData();
-  });
+  }, []);
 
   return (
     <Player
