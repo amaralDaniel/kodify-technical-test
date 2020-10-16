@@ -14,16 +14,14 @@ function App() {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        sources: video.sources.map(s => s.src),
-      }),
+      body: JSON.stringify({ video }),
     });
 
-    const { sources } = await rawTokenResponse.json();
+    const videoWithToken = await rawTokenResponse.json();
 
     const source = {
       type: 'video',
-      sources: video.sources.map((s, i) => ({ ...s, src: sources[i] })),
+      sources: videoWithToken.sources,
     };
 
     setSource(source);
