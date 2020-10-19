@@ -13,7 +13,7 @@ docker-compose up
 
 ## The codebase
 
-In the [packages](/packages) you'll see a [React App](/packages/client) that contains a video player component and the parent App component. On render the App calls our [server](/packages/server) with the videoId of `12345` returning a Video with it's sources. We then take the Video from the previous call and send it to a token endpoint returning Video now with it sources signed. We update the players props which causes the player to load the video enabling it to be played.
+In the [packages](/packages) you'll see a [React App](/packages/client) that contains a video player component and the parent App component. On render the App calls our [server](/packages/server) with the videoId of `12345` returning a Video with it's sources. We then send our Video to the token endpoint to sign it's sources. We update the players props, which in turn causes the player to load the video, enabling it to be played.
 
 ### Tasks
 
